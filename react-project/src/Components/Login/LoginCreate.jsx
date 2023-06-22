@@ -1,15 +1,15 @@
-import React from "react";
-import Input from "../Forms/Input";
-import Button from "../Forms/Button";
-import Error from "../Helper/Error";
-import useForm from "../../Hooks/useForm";
-import { USER_POST } from "../../api";
-import { UserContext } from "../../UserContext";
-import useFetch from "../../Hooks/useFetch";
+import React from 'react';
+import Input from '../Forms/Input';
+import Button from '../Forms/Button';
+import Error from '../Helper/Error';
+import useForm from '../../Hooks/useForm';
+import { USER_POST } from '../../Api';
+import { UserContext } from '../../UserContext';
+import useFetch from '../../Hooks/useFetch';
 
 const LoginCreate = () => {
   const username = useForm();
-  const email = useForm("email");
+  const email = useForm('email');
   const password = useForm();
 
   const { userLogin } = React.useContext(UserContext);
@@ -30,33 +30,15 @@ const LoginCreate = () => {
     <section className="animeLeft">
       <h1 className="title">Cadastre-se</h1>
       <form onSubmit={handleSubmit}>
-        <Input
-          label="Usuário"
-          type="text"
-          name="username"
-          placeholder="Usuário"
-          {...username}
-        />
-        <Input
-          label="Email"
-          type="email"
-          name="email"
-          placeholder="teste@abc.com"
-          {...email}
-        />
-        <Input
-          label="Senha"
-          type="password"
-          name="password"
-          placeholder="Senha"
-          {...password}
-        />
+        <Input label="Usuário" type="text" name="username" {...username} />
+        <Input label="Email" type="email" name="email" {...email} />
+        <Input label="Senha" type="password" name="password" {...password} />
         {loading ? (
           <Button disabled>Cadastrando...</Button>
         ) : (
           <Button>Cadastrar</Button>
         )}
-        <Error error={error}/>
+        <Error error={error} />
       </form>
     </section>
   );
