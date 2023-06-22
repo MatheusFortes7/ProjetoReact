@@ -1,6 +1,6 @@
-import React from "react";
-import { TOKEN_POST, TOKEN_VALIDADE_POST, USER_GET } from "./api";
-import { useNavigate } from "react-router-dom";
+import React from 'react';
+import { TOKEN_POST, TOKEN_VALIDATE_POST, USER_GET } from './Api';
+import { useNavigate } from 'react-router-dom';
 
 export const UserContext = React.createContext();
 
@@ -16,13 +16,13 @@ export const UserStorage = ({ children }) => {
     setError(null);
     setLoading(false);
     setLogin(false);
-    window.localStorage.removeItem("token");
+    window.localStorage.removeItem('token');
   }, []);
 
   async function getUser(token) {
     const { url, options } = USER_GET(token);
-    const responde = await fetch(url, options);
-    const json = await responde.json();
+    const response = await fetch(url, options);
+    const json = await response.json();
     setData(json);
     setLogin(true);
   }
@@ -33,13 +33,13 @@ export const UserStorage = ({ children }) => {
       setLoading(true);
       const { url, options } = TOKEN_POST({ username, password });
       const tokenRes = await fetch(url, options);
-      if (!tokenRes.ok) throw new Error(`Error: Usuário inválido`);
+      if (!tokenRes.ok) throw new Error(`Error: ${tokenRes.statusText}`);
       const { token } = await tokenRes.json();
-      window.localStorage.setItem("token", token);
+      window.localStorage.setItem('token', token);
       await getUser(token);
-      navigate("/conta");
-    } catch (error) {
-      setError(error.message);
+      navigate('/conta');
+    } catch (err) {
+      setError(err.message);
       setLogin(false);
     } finally {
       setLoading(false);
@@ -48,16 +48,16 @@ export const UserStorage = ({ children }) => {
 
   React.useEffect(() => {
     async function autoLogin() {
-      const token = window.localStorage.getItem("token");
+      const token = window.localStorage.getItem('token');
       if (token) {
         try {
           setError(null);
           setLoading(true);
-          const { url, options } = TOKEN_VALIDADE_POST(token);
-          const responde = await fetch(url, options);
-          if (!responde.ok) throw new Error("Token inválido");
+          const { url, options } = TOKEN_VALIDATE_POST(token);
+          const response = await fetch(url, options);
+          if (!response.ok) throw new Error('Token inválido');
           await getUser(token);
-        } catch (error) {
+        } catch (err) {
           userLogout();
         } finally {
           setLoading(false);
