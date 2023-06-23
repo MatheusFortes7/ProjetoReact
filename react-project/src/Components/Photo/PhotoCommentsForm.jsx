@@ -13,7 +13,6 @@ const PhotoCommentsForm = ({ id, setComments }) => {
     event.preventDefault();
     const { url, options } = COMMENT_POST(id, { comment });
     const { response, json } = await request(url, options);
-    console.log(json);
     if (response.ok) {
       setComment('');
       setComments((comments) => [...comments, json]);
@@ -23,7 +22,7 @@ const PhotoCommentsForm = ({ id, setComments }) => {
   return (
     <form className={styles.form} onSubmit={handleSubmit}>
       <textarea
-      className={styles.textarea}
+        className={styles.textarea}
         id="comment"
         name="comment"
         placeholder="Comente..."
