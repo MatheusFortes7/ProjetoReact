@@ -11,7 +11,7 @@ const Loading = () => {
         else return 0;
       });
     }
-    const interval = setInterval(updateStep, 200);
+    const interval = setInterval(updateStep, 300);
     return () => {
       clearInterval(interval);
     };
